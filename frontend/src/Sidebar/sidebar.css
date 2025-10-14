@@ -1,0 +1,282 @@
+/* sidebar.css
+   Modern glassy sidebar to match dashboard layout.
+   Keeps the same class names used in your Sidebar.jsx
+*/
+
+/* Sidebar container (left column) */
+.sidebar {
+  height: 100vh;
+  padding: 28px 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-right: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px) saturate(1.05);
+  -webkit-backdrop-filter: blur(8px) saturate(1.05);
+  color: #e6e8ee;
+  min-width: 240px;
+  max-width: 320px;
+  transition: width 240ms ease, transform 180ms ease;
+  box-shadow: 6px 0 20px rgba(2,6,23,0.35);
+  z-index: 10;
+}
+
+/* Mobile hamburger trigger (hidden by default, shown on small screens) */
+.hamburger-btn {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 20;
+  display: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e6e8ee;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+}
+.hamburger-btn svg { width: 22px; height: 22px; }
+/* show only one icon depending on toggle state */
+.icon-close { display: none; }
+.sidebar-toggle:checked + .hamburger-btn .icon-menu { display: none; }
+.sidebar-toggle:checked + .hamburger-btn .icon-close { display: block; }
+
+/* checkbox input (hidden) */
+.sidebar-toggle {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Close button inside drawer */
+.sidebar-close {
+  display: none;
+  margin-left: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e6e8ee;
+  text-decoration: none;
+}
+.sidebar-close svg { width: 20px; height: 20px; }
+
+/* Overlay for when drawer is open */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3,6,23,0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+  z-index: 14;
+}
+
+/* Compact mode on small widths */
+@media (max-width: 880px) {
+  .hamburger-btn { display: inline-flex; }
+  /* Convert sidebar into off-canvas drawer */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    min-width: 280px;
+    max-width: 82vw;
+    padding: 22px 16px;
+    box-shadow: 18px 0 40px rgba(2,6,23,0.55);
+  }
+  /* When the checkbox is checked, open drawer and overlay */
+  .sidebar-toggle:checked ~ .sidebar { transform: translateX(0); z-index: 15; }
+  .sidebar-toggle:checked ~ .sidebar-overlay { opacity: 1; pointer-events: auto; }
+
+  /* no extra close button; we use the same hamburger label */
+
+  /* Restore labels inside drawer on mobile */
+  .sidebar .sidebar-header h3,
+  .sidebar-nav a span,
+  .sidebar-footer button span { display: inline; }
+}
+
+/* Header (brand) */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 6px;
+}
+.sidebar-header h3 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(90deg,#ffffff,#cfeefd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 8px 30px rgba(50, 120, 255, 0.06);
+}
+
+/* Nav */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+/* Nav items */
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #d7dee9;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background 180ms ease, transform 150ms ease, color 150ms ease, box-shadow 150ms ease;
+  border: 1px solid transparent;
+}
+
+.nav-item svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #9aa3b2;
+  transition: color 150ms ease, transform 180ms ease;
+}
+
+/* Hover */
+.nav-item:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(20,40,80,0.08);
+}
+.nav-item:hover svg { color: #cfeefd; transform: translateY(-1px); }
+
+/* Active state (applies when NavLink sets 'active' class) */
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(124,92,255,0.14), rgba(63,169,245,0.06));
+  color: #f8fbff;
+  border: 1px solid rgba(127,151,255,0.26);
+  box-shadow: 0 10px 30px rgba(68,88,200,0.08);
+}
+.nav-item.active svg {
+  color: #7c5cff;
+  filter: drop-shadow(0 8px 18px rgba(124,92,255,0.08));
+}
+
+/* Small icon-only visual when collapsed */
+.nav-item .icon-only {
+  display: none;
+}
+@media (max-width: 880px) {
+  .nav-item { justify-content: center; padding: 12px; }
+  .nav-item .icon-only { display: inline-block; }
+}
+
+/* Footer (sign out) */
+.sidebar-footer {
+  padding-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+.signout-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: #f1f5f9;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+}
+.signout-button svg { width: 16px; height: 16px; color: #ffb4a2; }
+
+/* Signout hover */
+.signout-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255,132,114,0.06);
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* Focus styles for keyboard accessibility */
+.nav-item:focus,
+.signout-button:focus,
+.sidebar-header h3:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(138,182,255,0.12);
+  border-radius: 12px;
+}
+
+/* Small visual accent on the left to show selected route (vertical indicator) */
+.nav-item.active::before {
+  content: "";
+  width: 4px;
+  height: 44px;
+  border-radius: 6px;
+  margin-right: 8px;
+  background: linear-gradient(180deg, #7c5cff, #3fa9f5);
+  box-shadow: 0 6px 18px rgba(60,145,255,0.14);
+}
+
+/* Make sure the active indicator doesn't push layout when in collapsed mode */
+@media (max-width: 880px) {
+  .nav-item.active::before { display: none; }
+}
+
+/* Accessibility: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,
+  .signout-button,
+  .product-card,
+  .add-product-btn,
+  .product-image {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Tiny responsive adjustments */
+@media (max-width: 560px) {
+  .sidebar { padding: 18px 12px; min-width: 260px; }
+  .sidebar-header h3 { font-size: 16px; }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+}
+
+.sidebar-logo {
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(124, 92, 255, 0.3));
+  transition: transform 200ms ease, filter 200ms ease;
+}
+
+.sidebar-header:hover .sidebar-logo {
+  transform: rotate(-8deg) scale(1.05);
+  filter: drop-shadow(0 6px 16px rgba(63,169,245,0.4));
+}

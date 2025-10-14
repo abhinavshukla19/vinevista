@@ -1,0 +1,191 @@
+/* order.css */
+
+/* Layout */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  color: #e6e8ee;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(99,102,241,0.06), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(16,185,129,0.06), transparent 60%),
+    #0f1220;
+  overflow-x: hidden;
+}
+
+.app-layout > .sidebar,
+.app-layout > .Sidebar, /* in case of named import differences */
+.app-layout > nav {
+  width: 260px; /* adjust to your sidebar width */
+  flex-shrink: 0;
+}
+
+/* Main content */
+.orders-wrapper {
+  flex: 1;
+  padding: 28px;
+  box-sizing: border-box;
+}
+
+.orders-header h1 {
+  margin: 0 0 16px 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #eaf0ff;
+}
+
+/* Content container */
+.orders-content {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+  overflow-x: auto;
+}
+
+/* Table base */
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 780px; /* ensures horizontal scroll on small screens */
+  font-size: 0.95rem;
+}
+
+/* Header */
+.orders-table thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: #cfeefd;
+  letter-spacing: 0.2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(124,92,255,0.10), rgba(63,169,245,0.03));
+}
+
+/* Rows */
+.orders-table tbody td {
+  padding: 12px 14px;
+  vertical-align: middle;
+  color: #e6e8ee;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Hover / zebra */
+.orders-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* No-orders row */
+.no-orders {
+  text-align: center;
+  padding: 28px 0;
+  color: #9aa3b2;
+  font-style: italic;
+}
+
+/* Small utility for data-label (used in responsive mobile view) */
+.orders-table td[data-label]::before {
+  content: attr(data-label);
+  display: none;
+  font-weight: 600;
+  margin-right: 8px;
+  color: #9aa3b2;
+}
+
+/* Price styling */
+.orders-table td[data-label="Price"] {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Status pill */
+.status-pill {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.2px;
+}
+
+/* Example status colors */
+.status-pill.pending { background: #fff7ed; color: #b45309; }
+.status-pill.processing { background: #eff6ff; color: #1e3a8a; }
+.status-pill.completed { background: #ecfdf5; color: #065f46; }
+.status-pill.cancelled { background: #fef2f2; color: #991b1b; }
+
+/* Loading state */
+.orders-container,
+.orders-wrapper.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 4px solid rgba(15,23,42,0.08);
+  border-top-color: rgba(15,23,42,0.65);
+  animation: spin 0.9s linear infinite;
+  margin-right: 12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive: stack cells on narrow screens */
+@media (max-width: 880px) {
+  .orders-content {
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 8px 22px rgba(2,6,23,0.32);
+  }
+
+  .orders-table {
+    min-width: 100%;
+    border: 0;
+    font-size: 0.94rem;
+  }
+
+  .orders-table thead {
+    display: none; /* hide headers on mobile to show stacked view */
+  }
+
+  .orders-table tbody tr {
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  }
+
+  .orders-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border: 0;
+  }
+
+  .orders-table td[data-label]::before {
+    display: inline-block;
+    min-width: 120px;
+  }
+
+  .orders-table td[data-label="Price"],
+  .orders-table td[data-label="Quantity"],
+  .orders-table td[data-label="Status"] {
+    white-space: nowrap;
+  }
+}
+
+/* Small helpers */
+.text-muted { color: #9aa3b2; font-size: 0.92rem; }
+.small { font-size: 0.85rem; }
