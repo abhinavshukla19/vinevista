@@ -11,6 +11,7 @@ auth_router.post("/register", async (req, res) => {
     const { name, email, phonenumber, gender, password } = req.body;
 
     if (!name || !email || !phonenumber || !gender || !password) {
+        console.error("Incomplete fields")
         return res.status(400).json({ message: "Please fill all the fields" });
     }
 

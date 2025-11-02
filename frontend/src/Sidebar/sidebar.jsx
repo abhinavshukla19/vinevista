@@ -1,5 +1,5 @@
 import "./sidebar.css";
-import { FiUser, FiGrid, FiTrash2, FiLogOut, FiMenu, FiX } from "react-icons/fi";
+import { FiUser, FiGrid, FiTrash2, FiLogOut, FiMenu, FiX, FiShoppingCart , FiTruck} from "react-icons/fi";
 import { NavLink, useNavigate } from "react-router-dom";
 
 export const Sidebar = () => {
@@ -16,7 +16,7 @@ export const Sidebar = () => {
 
   return (
     <>
-    {/* Mobile toggle (single button opens/closes) */}
+
     <input type="checkbox" id="sidebar-toggle" className="sidebar-toggle" aria-hidden="true" />
     <label htmlFor="sidebar-toggle" className="hamburger-btn" aria-label="Toggle menu">
       <FiMenu className="icon-menu" />
@@ -51,7 +51,7 @@ export const Sidebar = () => {
           <path d="M9 11a3 3 0 0 1 6 0" /> {/* Bag handle */}
         </svg>
 
-        <h3>Shopholic</h3>
+        <h3>Vinevista</h3>
       </div>
 
       {/* --- Navigation Links --- */}
@@ -62,8 +62,11 @@ export const Sidebar = () => {
         <NavLink to="/Dashboard" className={getNavLinkClass}>
           <FiGrid /> <span>Dashboard</span>
         </NavLink>
+        <NavLink to="/Cart" className={getNavLinkClass}>
+          <FiShoppingCart /> <span>Cart</span>
+        </NavLink>
         <NavLink to="/orders" className={getNavLinkClass}>
-          <FiGrid /> <span>Orders</span>
+          <FiTruck /> <span>Orders</span>
         </NavLink>
         <NavLink to="/delete-account" className={getNavLinkClass}>
           <FiTrash2 /> <span>Delete account</span>

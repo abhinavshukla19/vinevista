@@ -130,6 +130,11 @@ body {
     padding-right: 60px;
 }
 
+.input-group input[type="text"]{
+    padding: 10px 55px;
+    
+}
+
 .password-toggle-icon {
     position: absolute;
     right: 18px;

@@ -30,7 +30,6 @@ product_page.post("/add_product",async(req,res)=>{
     try {
         const decode = Jwt.verify(auth_header, secret_key);
         const userid = decode.id; 
-        console.log(userid)
 
         if (!userid) {
             return res.status(401).json({ success: false, message: "Token is valid but does not contain a user ID." });
@@ -51,4 +50,4 @@ product_page.post("/add_product",async(req,res)=>{
 
 
 
-module.exports= product_page
+module.exports= product_page;

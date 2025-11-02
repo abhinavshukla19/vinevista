@@ -9,9 +9,11 @@ import {ChangePassword} from "./ChangePassword/ChangePassword.jsx"
 import { Allproducts } from "./product/All products/allproducts.jsx";
 import { Order } from "./product/product_order/order.jsx";
 import { DeleteAccount } from "./Deleteaccount/deleteacc.jsx";
+import { Cart } from "./product/product_cart/cart.jsx";
+
 
 let App = () => {
-  return (
+  return ( 
     <BrowserRouter>
       <Routes>
         <Route path="/register" element={<Registrationpage />} />
@@ -20,6 +22,7 @@ let App = () => {
         <Route path="/change_password" element={<ChangePassword></ChangePassword>} />
         <Route path="/add_product" element={<AddProduct />} />
         <Route path="/Dashboard" element={<Allproducts/>} /> 
+        <Route path="/Cart" element={<Cart />} />
         <Route path="/orders" element={<Order/>} />
         <Route path="/delete-account" element={<DeleteAccount/>} />  
       </Routes>
@@ -29,3 +32,4 @@ let App = () => {
 };
 
 export default App;
+

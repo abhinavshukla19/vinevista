@@ -181,7 +181,7 @@ export const Allproducts = () => {
                       className="view-btn"
                       onClick={()=>{order(product.product_id)}}
                       aria-label={`View ${product.product_name}`}>
-                      Order
+                      Add to cart
                     </button>
                   </div>
                 </div>
