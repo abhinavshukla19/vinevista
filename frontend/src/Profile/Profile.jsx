@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { showError } from "../utils/toast.jsx";
-import { FiUser, FiGrid, FiSettings, FiLogOut, FiEdit2, FiShield, FiLock } from 'react-icons/fi';
+import { User, Mail, Phone, Calendar, Edit2, Lock, Activity, Shield, Award, Clock } from 'lucide-react';
 import { Sidebar } from "../Sidebar/sidebar.jsx";
 import { host } from "../utils/toast.jsx";
 
@@ -22,7 +22,9 @@ export let Profile = () => {
         axios.post(`${host}/user_profile`, {}, { headers: { token: token } })
             .then(res => {
                 let payload = res?.data;
-                if (typeof payload === "string") { try { payload = JSON.parse(payload) } catch { } }
+                if (typeof payload === "string") { 
+                    try { payload = JSON.parse(payload) } catch { } 
+                }
                 const arrayCandidate = Array.isArray(payload?.data) ? payload?.data[0] : null;
                 const userData = payload?.data?.user ?? payload?.user ?? payload?.data ?? arrayCandidate ?? payload;
                 setUser(userData ?? null);
@@ -30,7 +32,7 @@ export let Profile = () => {
             .catch(err => {
                 const message = err?.response?.data?.message || err?.message || "Failed to load profile";
                 showError(message);
-                navigate("/signin")
+                navigate("/signin");
             })
             .finally(() => setIsLoading(false));
     }, [navigate]);
@@ -41,112 +43,263 @@ export let Profile = () => {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
             hash = str.charCodeAt(i) + ((hash << 5) - hash);
-            hash = hash & hash; 
+            hash = hash & hash;
         }
         const h = Math.abs(hash) % 360;
         return `hsl(${h}, ${s}%, ${l}%)`;
     }
 
-    // compute two gradient stops (stable per-user)
     const bg1 = stringToHslColor(user?.name || "User", 72, 56);
     const bg2 = stringToHslColor(user?.email || "Email", 68, 44);
+
+    const formatJoinDate = (date) => {
+        if (!date) return '—';
+        return new Date(date).toLocaleDateString('en-US', { 
+            month: 'long', 
+            year: 'numeric' 
+        });
+    };
+
+    if (isLoading) {
+        return (
+            <div className="profile-layout">
+                <Sidebar />
+                <div className="profile-loading">
+                    <Activity className="loading-icon" />
+                    <h2>Loading Profile...</h2>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="profile-page-wrapper">
-            <div className="aurora-background"></div>
-            <div className="profile-dashboard-layout">
-                <Sidebar></Sidebar>
-                <main className="main-content">
-                    <header className="profile-header sticky">
-                        <div>
-                            <h1 className="header-title">Profile</h1>
-                            <p className="header-subtitle">Manage your personal information and account security</p>
-                        </div>
-                    </header>
+        <div className="profile-layout">
+            <Sidebar />
+            
+            <main className="profile-container">
+                {/* Header */}
+                <header className="profile-header">
+                    <div className="header-content">
+                        <h1>My Profile</h1>
+                        <p>Manage your personal information and account settings</p>
+                    </div>
+                </header>
 
-                    <section className="fresh-hero" role="region" aria-label="profile header">
-                        <div className="fresh-avatar" aria-hidden={isLoading ? "true" : "false"}
-                             style={!user?.profilePicUrl ? { background: `linear-gradient(135deg, ${bg1}, ${bg2})` } : undefined}>
-                            <div className="avatar-ring" aria-hidden="true"></div>
-                            {user?.profilePicUrl ? (
-                                <img className="avatar-img" src={user.profilePicUrl} alt={user?.name || "user avatar"}
-                                     onError={(e) => { e.currentTarget.style.display = "none"; e.currentTarget.parentElement.style.background = `linear-gradient(135deg, ${bg1}, ${bg2})`; }} />
-                            ) : (
-                                <div className="avatar-initials">{initials}</div>
-                            )}
-                        </div>
-
-                        <div className="fresh-main">
-                            <h2 className="name">{isLoading ? <span className="skeleton skeleton-title"></span> : user?.name || "User Name"}</h2>
-                            <div className="email">{isLoading ? <span className="skeleton skeleton-text"></span> : user?.email || "user@example.com"}</div>
-
-                            <div className="fresh-meta">
-                                <div className="status-pill" title="Account status">
-                                    <span className="status-dot" aria-hidden="true"></span>
-                                    <span>Active</span>
-                                </div>
-                                <div style={{ color: '#9aa3b2', fontSize: 13 }}>
-                                    Joined: {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—'}
-                                </div>
+                {/* Profile Hero Section */}
+                <section className="profile-hero">
+                    <div className="hero-background"></div>
+                    
+                    <div className="profile-card-main">
+                        <div className="avatar-section">
+                            <div 
+                                className="avatar-container"
+                                style={!user?.profilePicUrl ? { 
+                                    background: `linear-gradient(135deg, ${bg1}, ${bg2})` 
+                                } : undefined}
+                            >
+                                <div className="avatar-ring"></div>
+                                {user?.profilePicUrl ? (
+                                    <img 
+                                        className="avatar-image" 
+                                        src={user.profilePicUrl} 
+                                        alt={user?.name || "user avatar"}
+                                        onError={(e) => { 
+                                            e.currentTarget.style.display = "none"; 
+                                            e.currentTarget.parentElement.style.background = `linear-gradient(135deg, ${bg1}, ${bg2})`; 
+                                        }} 
+                                    />
+                                ) : (
+                                    <div className="avatar-initials">{initials}</div>
+                                )}
                             </div>
-                        </div>
-
-                        <div className="fresh-actions" aria-hidden={false}>
-                            <button className="fresh-btn primary" onClick={() => navigate("/edit_profile")}><FiEdit2 /> Edit Profile</button>
-                            <button className="fresh-btn" onClick={() => navigate("/change_password")}><FiShield /> Change Password</button>
-                        </div>
-                    </section>
-
-                    <section className="fresh-grid" aria-label="profile content">
-                        <div>
-                            <div className="fresh-card">
-                                <div className="card-title">Personal Details</div>
-                                <div className="details-grid" role="table" aria-label="personal details">
-                                    <div className="detail-row"><div className="detail-label">Full Name</div><div className="detail-value">{isLoading ? <span className="skeleton skeleton-text"></span> : (user?.name || "-")}</div></div>
-                                    <div className="detail-row"><div className="detail-label">Email Address</div><div className="detail-value">{isLoading ? <span className="skeleton skeleton-text"></span> : (user?.email || "-")}</div></div>
-                                    <div className="detail-row"><div className="detail-label">Phone Number</div><div className="detail-value">{isLoading ? <span className="skeleton skeleton-text"></span> : (user?.phonenumber || "-")}</div></div>
-                                    <div className="detail-row"><div className="detail-label">Gender</div><div className="detail-value">{isLoading ? <span className="skeleton skeleton-text"></span> : (user?.gender || "-")}</div></div>
-                                </div>
-                            </div>
-
-                            <div style={{ height: 18 }}></div>
-
-                            <div className="fresh-card" aria-hidden="false">
-                                <div className="card-title">Recent Activity</div>
-                                <ul className="timeline" aria-live="polite">
-                                    <li className="timeline-item"><div className="timeline-dot"></div><div style={{display:'flex', justifyContent:'space-between', width:'100%'}}><div>Logged in yesterday</div><div style={{color:'#9aa3b2'}}>1d</div></div></li>
-                                    <li className="timeline-item"><div className="timeline-dot"></div><div style={{display:'flex', justifyContent:'space-between', width:'100%'}}><div>Changed password</div><div style={{color:'#9aa3b2'}}>3 mo</div></div></li>
-                                    <li className="timeline-item"><div className="timeline-dot"></div><div style={{display:'flex', justifyContent:'space-between', width:'100%'}}><div>Added 2 products</div><div style={{color:'#9aa3b2'}}>1 wk</div></div></li>
-                                </ul>
-                            </div>
-
-                            <div className="bottom-fill" aria-hidden="true"></div>
-                        </div>
-
-                        <aside>
-                            <div className="fresh-card">
-                                <div className="card-title">Activity</div>
-                                <div className="stat-block">
-                                    <div className="stat-pill"><div><div className="stat-value">12</div><div className="stat-label">Products Added</div></div><div style={{color:'#9aa3b2'}}>—</div></div>
-                                    <div className="stat-pill"><div><div className="stat-value">Active</div><div className="stat-label">Account Status</div></div><div style={{color:'#9aa3b2'}}>—</div></div>
-                                </div>
-                            </div>
-
-                            <div style={{height:12}}></div>
-
-                            <div className="fresh-card">
-                                <div className="card-title">Account Security</div>
-                                <div className="security-row">
-                                    <div className="security-icon-wrap"><FiLock /></div>
-                                    <div>
-                                        <div style={{fontWeight:800}}>Password</div>
-                                        <div style={{color:'#9aa3b2', fontSize:13}}>Last changed 3 months ago</div>
+                            
+                            <div className="user-info">
+                                <h2 className="user-name">{user?.name || "User Name"}</h2>
+                                <p className="user-email">{user?.email || "user@example.com"}</p>
+                                
+                                <div className="user-meta">
+                                    <div className="status-badge active">
+                                        <span className="status-dot"></span>
+                                        <span>Active Account</span>
+                                    </div>
+                                    <div className="join-date">
+                                        <Calendar size={16} />
+                                        <span>Joined {formatJoinDate(user?.createdAt)}</span>
                                     </div>
                                 </div>
                             </div>
-                        </aside>
-                    </section>
-                </main>
-            </div>
+                        </div>
+
+                        <div className="action-buttons">
+                            <button 
+                                className="btn-primary" 
+                                onClick={() => navigate("/edit_profile")}
+                            >
+                                <Edit2 size={18} />
+                                <span>Edit Profile</span>
+                            </button>
+                            <button 
+                                className="btn-secondary" 
+                                onClick={() => navigate("/change_password")}
+                            >
+                                <Lock size={18} />
+                                <span>Change Password</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Content Grid */}
+                <div className="profile-grid">
+                    {/* Left Column */}
+                    <div className="grid-main">
+                        {/* Personal Details Card */}
+                        <div className="info-card">
+                            <div className="card-header">
+                                <User size={20} />
+                                <h3>Personal Information</h3>
+                            </div>
+                            <div className="card-body">
+                                <div className="info-row">
+                                    <div className="info-item">
+                                        <div className="info-icon">
+                                            <User size={18} />
+                                        </div>
+                                        <div className="info-content">
+                                            <span className="info-label">Full Name</span>
+                                            <span className="info-value">{user?.name || "—"}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="info-item">
+                                        <div className="info-icon">
+                                            <Mail size={18} />
+                                        </div>
+                                        <div className="info-content">
+                                            <span className="info-label">Email Address</span>
+                                            <span className="info-value">{user?.email || "—"}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="info-row">
+                                    <div className="info-item">
+                                        <div className="info-icon">
+                                            <Phone size={18} />
+                                        </div>
+                                        <div className="info-content">
+                                            <span className="info-label">Phone Number</span>
+                                            <span className="info-value">{user?.phonenumber || "—"}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="info-item">
+                                        <div className="info-icon">
+                                            <User size={18} />
+                                        </div>
+                                        <div className="info-content">
+                                            <span className="info-label">Gender</span>
+                                            <span className="info-value">{user?.gender || "—"}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Activity Timeline Card */}
+                        <div className="info-card">
+                            <div className="card-header">
+                                <Clock size={20} />
+                                <h3>Recent Activity</h3>
+                            </div>
+                            <div className="card-body">
+                                <div className="timeline">
+                                    <div className="timeline-item">
+                                        <div className="timeline-marker"></div>
+                                        <div className="timeline-content">
+                                            <span className="timeline-text">Profile updated</span>
+                                            <span className="timeline-time">2 days ago</span>
+                                        </div>
+                                    </div>
+                                    <div className="timeline-item">
+                                        <div className="timeline-marker"></div>
+                                        <div className="timeline-content">
+                                            <span className="timeline-text">Password changed</span>
+                                            <span className="timeline-time">3 months ago</span>
+                                        </div>
+                                    </div>
+                                    <div className="timeline-item">
+                                        <div className="timeline-marker"></div>
+                                        <div className="timeline-content">
+                                            <span className="timeline-text">Account created</span>
+                                            <span className="timeline-time">{formatJoinDate(user?.createdAt)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column */}
+                    <div className="grid-sidebar">
+                        {/* Stats Card */}
+                        <div className="info-card stats-card">
+                            <div className="card-header">
+                                <Activity size={20} />
+                                <h3>Account Stats</h3>
+                            </div>
+                            <div className="card-body">
+                                <div className="stat-item">
+                                    <div className="stat-icon">
+                                        <Award size={24} />
+                                    </div>
+                                    <div className="stat-content">
+                                        <span className="stat-value">Active</span>
+                                        <span className="stat-label">Account Status</span>
+                                    </div>
+                                </div>
+                                <div className="stat-divider"></div>
+                                <div className="stat-item">
+                                    <div className="stat-icon">
+                                        <Calendar size={24} />
+                                    </div>
+                                    <div className="stat-content">
+                                        <span className="stat-value">
+                                            {user?.createdAt ? new Date(user.createdAt).getFullYear() : '—'}
+                                        </span>
+                                        <span className="stat-label">Member Since</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Security Card */}
+                        <div className="info-card security-card">
+                            <div className="card-header">
+                                <Shield size={20} />
+                                <h3>Account Security</h3>
+                            </div>
+                            <div className="card-body">
+                                <div className="security-item">
+                                    <div className="security-icon">
+                                        <Lock size={20} />
+                                    </div>
+                                    <div className="security-content">
+                                        <span className="security-title">Password</span>
+                                        <span className="security-desc">Last changed 3 months ago</span>
+                                    </div>
+                                </div>
+                                <button 
+                                    className="security-btn"
+                                    onClick={() => navigate("/change_password")}
+                                >
+                                    Update Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
     );
 };

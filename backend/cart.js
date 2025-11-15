@@ -3,23 +3,16 @@ const express=require("express");
 const Cart=express.Router();
 const Jwt=require("jsonwebtoken");
 const database = require("./database");
+const { authMiddleware } = require("./auth-middleware");
 const secret_key=process.env.Jwt_secret;
 
+Cart.use(authMiddleware);
+
 Cart.post("/item_to_cart", async (req, res) => {
-    const { product_id } = req.body;
-    const token = req.headers.token;
-    
-    if (!token) {
-        return res.status(401).json({ message: "Token is not available" });
-    }
-
-    try {
-        const decode = Jwt.verify(token, secret_key);
-        const user_id = decode.id;
-    } catch (error) {
-        return res.status(401).json({ message: "Token is invalid or expired" });
-    }
-
+    const { product_id }=req.body;
+    console.log(req.decode);
+    const user_id = req.decode.id;
+    console.log(user_id)
     if (!product_id) {
         return res.status(400).json({ message: "Product ID is required" });
     }
@@ -60,24 +53,13 @@ Cart.post("/item_to_cart", async (req, res) => {
 
 
 
+// fetch data form database
 Cart.get("/get_cart", async (req, res) => {
-    const token = req.headers.token;
-    
-    if (!token) {
-        return res.status(401).json({ message: "Token is not available" });
-    }
-
-    let user_id;
-    try {
-        const decode = Jwt.verify(token, secret_key);
-        user_id = decode.id;
-    } catch (error) {
-        return res.status(401).json({ message: "Token is invalid or expired" });
-    }
+   const user_id = req.decode.id;
 
     try {
          const [cartItems] = await database.query(      
-  "SELECT c.cart_id, c.product_id, c.quantity, c.added_at, p.product_name, p.product_price, p.product_url FROM cart c JOIN product_data p ON c.product_id = p.product_id WHERE c.user_id = ?",[user_id]
+    "SELECT c.cart_id, c.product_id, c.quantity, c.added_at, p.product_name, p.product_price, p.product_url FROM cart c JOIN product_data p ON c.product_id = p.product_id WHERE c.user_id = ?",[user_id]
     );
         
         // Calculate total
@@ -95,4 +77,47 @@ Cart.get("/get_cart", async (req, res) => {
     }
 });
 
-module.exports=Cart 
+
+
+Cart.post("/remove_item/",async(req,res)=>{
+    const { product_id }=req.body;
+    const user_id = req.decode.id;
+
+    if (!product_id) {
+         return res.status(400).json({ message: "Product ID is required" });
+    }
+
+    try {
+        const [result] = await database.query(
+            "DELETE FROM cart WHERE product_id = ? AND user_id = ?;",
+            [product_id, user_id]);
+
+        res.status(200).json({message:"Sucessfully removed 😀"})
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message:"Failed to remove 😡"})
+    }
+
+});
+
+
+
+Cart.post("/increase_quantity",async (req,res)=>{
+    const { product_id }=req.body;
+    const user_id = req.decode.id;
+
+    if (!product_id) {
+         return res.status(400).json({ message: "Product ID is required" });
+    }
+
+    try {
+        const quantity=await database.query("UPDATE cart SET quantity = quantity+1 WHERE user_id = ? AND product_id = ?",[user_id,product_id]);
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({sucess:false ,message:"Failed to increase quantity 😡"})
+    }
+})
+
+module.exports=Cart;

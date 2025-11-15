@@ -3,19 +3,18 @@ const express=require("express")
 const orders=express.Router();
 const Jwt=require("jsonwebtoken");
 const database = require("./database");
+const { authMiddleware } = require("./auth-middleware");
 const secret_key=process.env.Jwt_secret
+
+
+orders.use(authMiddleware)
 
 // too add in cart
 orders.post("/product_to_cart",async(req,res)=>{
     const { product_id }=req.body;
-    const token=req.headers.token;
-    if (!token) {
-        res.json({message: "Token is not available"})
-        return
-    }
+    const user_id = req.decode.id;
+    
     try {
-        const decode=Jwt.verify(token,secret_key)
-        const user_id=decode.id;
         await database.query("insert into orders_data ( user_id , product_id )  values ( ?, ? )",[user_id , product_id])
         res.status(200).json({sucess:true , message:"Product added to cart"})
 
@@ -27,18 +26,9 @@ orders.post("/product_to_cart",async(req,res)=>{
 
 // to view orders
 orders.get("/orders",async(req,res)=>{
-    const token=req.headers.token;
-    if (!token) {
-        return res.status(401).json({message: "Token is not available"})
-    }
+    const user_id = req.decode.id;
     
     try {
-        const decode=Jwt.verify(token,secret_key)
-        if(!decode){
-            return res.json({message:"Token is expired"})
-        }
-        const user_id=decode.id
-
         const user=await database.query("SELECT * FROM users_login WHERE id=?",[user_id])
         const user_name=user[0][0].name
 
