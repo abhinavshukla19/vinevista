@@ -20,7 +20,7 @@ export const ToastRoot = () => (
   />
 );
 
-export const host="http://192.168.1.7:3000"
+export const host="https://vinevista.onrender.com/"
 // export const host="http://34.47.254.72:3000"
 
 export const showSuccess = (message) => toast.success(message);
