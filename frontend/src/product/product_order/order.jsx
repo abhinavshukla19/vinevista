@@ -10,6 +10,7 @@ import {
   Calendar,
   DollarSign,
   ShoppingBag,
+  IndianRupeeIcon,
 } from "lucide-react";
 import { Sidebar } from "../../Sidebar/sidebar";
 import { showError ,host } from "../../utils/toast"; 
@@ -228,7 +229,7 @@ export const Order = () => {
                           <div className="product-meta">
                             <span className="quantity">Qty: {quantity}</span>
                             <span className="separator">•</span>
-                            <span className="price">${price.toFixed(2)} each</span>
+                            <span className="price">₹ {price.toFixed(2)} each</span>
                           </div>
                         </div>
                       </div>
@@ -239,8 +240,8 @@ export const Order = () => {
                           <span>{createdAt}</span>
                         </div>
                         <div className="order-total">
-                          <DollarSign className="footer-icon" />
-                          <span className="total-amount">${(price * quantity).toFixed(2)}</span>
+                          <IndianRupeeIcon className="footer-icon" />
+                          <span className="total-amount">{(price * quantity).toFixed(2)}</span>
                         </div>
                       </div>
                     </div>

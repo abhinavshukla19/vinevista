@@ -1,3 +1,6 @@
+/* Registeruser.css - Black Out Nightlife Theme */
+
+/* Container */
 .register-container {
   min-height: 100vh;
   width: 100%;
@@ -233,7 +236,7 @@
 .input-icon {
   position: absolute;
   left: 1rem;
-  color: #808080;
+  color: #dc143c;
   pointer-events: none;
   z-index: 1;
 }
@@ -245,11 +248,12 @@
   background: #1a1a1a;
   border: 1px solid rgba(220, 20, 60, 0.3);
   border-radius: 4px;
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 1rem;
   transition: all 0.3s ease;
   appearance: none;
   font-weight: 500;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .input-wrapper select {
@@ -258,15 +262,17 @@
   background-repeat: no-repeat;
   background-position: right 1rem center;
   padding-right: 3rem;
+  background-color: #1a1a1a;
 }
 
 .input-wrapper select option {
-  background: #0a0a0a;
-  color: #fff;
+  background: #1a1a1a;
+  color: #ffffff;
 }
 
 .input-wrapper input::placeholder {
-  color: #808080;
+  color: #808080 !important;
+  -webkit-text-fill-color: #808080 !important;
 }
 
 .input-wrapper input:focus,
@@ -275,6 +281,8 @@
   background: #1f1f1f;
   border-color: rgba(220, 20, 60, 0.6);
   box-shadow: 0 0 20px rgba(220, 20, 60, 0.3);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .input-wrapper input:disabled,

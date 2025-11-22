@@ -1,7 +1,7 @@
 // DeleteAccount.jsx
 import React, { useEffect, useRef, useState } from "react";
 import "./deleteacc.css";
-import { Sidebar } from "../Sidebar/sidebar.jsx"; // adjust path if needed
+import { Sidebar } from "../Sidebar/sidebar.jsx";
 import { useNavigate } from "react-router-dom";
 import { host, showError, showSuccess } from "../utils/toast.jsx";
 import axios from "axios";
@@ -15,15 +15,14 @@ export const DeleteAccount = () => {
   const navigate = useNavigate();
 
   const overlayRef = useRef(null);
-  const firstInputRef = useRef(null); // for focusing password input
-  const confirmInputRef = useRef(null); // for focusing confirm input
+  const firstInputRef = useRef(null);
+  const confirmInputRef = useRef(null);
 
   useEffect(() => {
     if (firstInputRef.current) firstInputRef.current.focus();
   }, []);
 
   useEffect(() => {
-    // focus confirm input when modal opens
     if (showConfirm && confirmInputRef.current) {
       confirmInputRef.current.focus();
     }
@@ -66,7 +65,6 @@ export const DeleteAccount = () => {
         { headers: { token, Authorization: `Bearer ${token}` } }
       );
 
-      // Good UX: show success, clear token, navigate
       showSuccess(res?.data?.message || "Account deleted successfully.");
       localStorage.removeItem("token");
       navigate("/signin");
@@ -82,7 +80,6 @@ export const DeleteAccount = () => {
     }
   };
 
-  // keyboard escape to close confirm modal
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape" && showConfirm) {
@@ -98,53 +95,61 @@ export const DeleteAccount = () => {
       <div className="profile-dashboard-layout">
         <Sidebar />
         <main className="main-content delete-page-main" aria-live="polite">
-          <header className="profile-header sticky">
+          <header className="profile-header">
             <div>
-              <h1 className="header-title">Delete account</h1>
+              <h1 className="header-title">DELETE ACCOUNT</h1>
               <p className="header-subtitle">Permanently remove your account and all data</p>
             </div>
           </header>
 
           <section
-            className="fresh-card delete-account-root"
+            className="delete-account-card"
             role="region"
             aria-label="delete account"
           >
-            <p className="muted-note">
-              This action <strong>cannot</strong> be undone. Please enter your password to continue.
+            <div className="warning-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+
+            <h2 className="card-title">Danger Zone</h2>
+            <p className="warning-text">
+              This action <strong>cannot</strong> be undone. All your data, including your wine collection, orders, and account information will be permanently deleted.
             </p>
 
-            {error ? (
-              <div className="error" role="alert" aria-live="assertive">
+            {error && (
+              <div className="error-alert" role="alert" aria-live="assertive">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
                 {error}
               </div>
-            ) : null}
+            )}
 
             <form onSubmit={openConfirm} className="delete-form" noValidate>
-              <label htmlFor="password" className="label">
-                Password
-              </label>
-              <input
-                id="password"
-                ref={firstInputRef}
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                className="input"
-                aria-required="true"
-              />
+              <div className="form-group">
+                <label htmlFor="password" className="form-label">
+                  Confirm your password
+                </label>
+                <input
+                  id="password"
+                  ref={firstInputRef}
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="form-input"
+                  aria-required="true"
+                />
+              </div>
 
-              <div className="form-cta">
-                <button
-                  type="submit"
-                  className="btn-danger"
-                  disabled={loading}
-                  aria-disabled={loading}
-                >
-                  {loading ? "Processing..." : "Delete my account"}
-                </button>
+              <div className="form-actions">
                 <button
                   type="button"
                   className="btn-secondary"
@@ -155,11 +160,18 @@ export const DeleteAccount = () => {
                 >
                   Clear
                 </button>
+                <button
+                  type="submit"
+                  className="btn-danger"
+                  disabled={loading}
+                  aria-disabled={loading}
+                >
+                  {loading ? "Processing..." : "Delete my account"}
+                </button>
               </div>
             </form>
           </section>
 
-          {/* Confirmation Modal */}
           {showConfirm && (
             <div
               className="confirm-overlay"
@@ -168,41 +180,48 @@ export const DeleteAccount = () => {
               aria-labelledby="confirm-title"
               ref={overlayRef}
               onMouseDown={(e) => {
-                // clicking on overlay closes modal
                 if (e.target === overlayRef.current) closeConfirm();
               }}
             >
-              <div className="confirm-card" role="document">
+              <div className="confirm-modal" role="document">
                 <button
-                  className="close-x"
+                  className="modal-close"
                   aria-label="Close confirmation"
                   onClick={closeConfirm}
                 >
                   ×
                 </button>
 
-                <h3 id="confirm-title">Confirm deletion</h3>
-                <p className="muted-note">
-                  Type <strong>DELETE</strong> to confirm you want to permanently remove your
-                  account.
-                </p>
+                <div className="modal-header">
+                  <div className="modal-icon-danger">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                  </div>
+                  <h3 id="confirm-title">Confirm deletion</h3>
+                  <p className="modal-description">
+                    Type <strong>DELETE</strong> below to confirm you want to permanently remove your account and all associated data.
+                  </p>
+                </div>
 
                 <input
                   ref={confirmInputRef}
-                  className="input confirm-input"
+                  className="modal-input"
                   value={confirmText}
                   onChange={(e) => setConfirmText(e.target.value)}
                   placeholder='Type "DELETE" here'
                   aria-label='Type DELETE to confirm deletion'
                 />
 
-                <div className="confirm-actions">
-                  <button type="button" className="btn-outline" onClick={closeConfirm}>
+                <div className="modal-actions">
+                  <button type="button" className="btn-cancel" onClick={closeConfirm}>
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="btn-danger"
+                    className="btn-confirm-danger"
                     onClick={handleDelete}
                     disabled={loading}
                     aria-disabled={loading}
