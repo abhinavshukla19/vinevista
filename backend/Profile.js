@@ -1,23 +1,43 @@
-require("dotenv").config()
-const express = require('express');
-const router = express.Router(); 
-const Jwt=require("jsonwebtoken");
+const express = require("express");
+const router = express.Router();
 const database = require("./database");
-const secret_key=process.env.Jwt_secret
+const { authMiddleware } = require("./auth-middleware");
 
+router.post("/user_profile", authMiddleware, async (req, res) => {
+  const userId = req.decode.id;
 
-router.post("/user_profile", async(req, res) => {
-    const auth_header = req.headers.token;
-    if (!auth_header) {
-        res.status(404).json({sucess:false , message:"No token provided"})
+  try {
+    const { rows } = await database.query(
+      `SELECT 
+         id,
+         name,
+         email,
+         phonenumber,
+         gender,
+         role,
+         created_at
+       FROM users_login
+       WHERE id = $1`,
+      [userId]
+    );
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    const decode=Jwt.verify(auth_header,secret_key)
-    const data_check=await database.query("select * from users_login where id=?",[decode.id])
-    const profile_data=data_check[0][0]
-    console.log(profile_data)
-    res.status(200).json(profile_data)
+    return res.status(200).json({
+      success: true,
+      data: rows[0],
+    });
+  } catch (error) {
+    console.error("Error in /user_profile:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while fetching profile",
+    });
+  }
 });
-
 
 module.exports = router;
