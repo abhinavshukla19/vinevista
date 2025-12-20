@@ -1,0 +1,230 @@
+/* Alert Container */
+.alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+  max-width: 420px;
+  width: 100%;
+}
+
+/* Alert Item */
+.alert-item {
+  position: relative;
+  background: #0a0a0a;
+  border: 1px solid rgba(220, 20, 60, 0.3);
+  border-radius: 8px;
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(220, 20, 60, 0.2);
+  overflow: hidden;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translateX(500px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  backdrop-filter: blur(10px);
+}
+
+.alert-item.alert-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.alert-item.alert-exiting {
+  transform: translateX(500px);
+  opacity: 0;
+}
+
+/* Success Alert */
+.alert-success {
+  border-color: rgba(0, 255, 178, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 178, 0.15);
+}
+
+.alert-success .alert-icon {
+  color: #00ffb2;
+}
+
+.alert-success .alert-progress-bar {
+  background: linear-gradient(90deg, #00ffb2, #00cc8f);
+}
+
+/* Error Alert */
+.alert-error {
+  border-color: rgba(220, 20, 60, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(220, 20, 60, 0.3);
+}
+
+.alert-error .alert-icon {
+  color: #dc143c;
+}
+
+.alert-error .alert-progress-bar {
+  background: linear-gradient(90deg, #dc143c, #8b0000);
+}
+
+/* Alert Content */
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Alert Icon */
+.alert-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.alert-success .alert-icon {
+  background: rgba(0, 255, 178, 0.1);
+}
+
+.alert-error .alert-icon {
+  background: rgba(220, 20, 60, 0.1);
+}
+
+/* Alert Message */
+.alert-message {
+  flex: 1;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+}
+
+/* Alert Close Button */
+.alert-close {
+  background: none;
+  border: none;
+  color: #808080;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.alert-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+}
+
+.alert-close:active {
+  transform: scale(0.95);
+}
+
+/* Progress Bar */
+.alert-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.alert-progress-bar {
+  height: 100%;
+  width: 100%;
+  animation: progress-shrink linear forwards;
+  transform-origin: left;
+}
+
+@keyframes progress-shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* Hover Effect */
+.alert-item:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(220, 20, 60, 0.3);
+}
+
+.alert-item.alert-visible:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.alert-item.alert-exiting:hover {
+  transform: translateX(500px);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .alert-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .alert-item {
+    border-radius: 6px;
+  }
+
+  .alert-content {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .alert-message {
+    font-size: 13px;
+  }
+
+  .alert-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .alert-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .alert-item,
+  .alert-progress-bar,
+  .alert-close {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .alert-item {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .alert-item.alert-exiting {
+    opacity: 0;
+  }
+}
+
+
+

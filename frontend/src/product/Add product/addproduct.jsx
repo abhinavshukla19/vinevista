@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from '../../Sidebar/sidebar.jsx';
-import { showError,showSuccess , host} from '../../utils/toast.jsx';
+import { showError, showSuccess, host } from '../../components/Alert';
 import "./addproduct.css"; 
 
 export const AddProduct = () => {
@@ -66,10 +66,11 @@ return (
             <Sidebar />
             <main className="main-content">
 
-                <header className="dashboard-header" style={{ marginBottom: 12 }}>
-                    <div>
-                        <h1 className="header-title">Add New Product</h1>
-                        <p className="header-subtitle">Fill in the details to add a new item to the catalog.</p>
+                <header className="dashboard-header">
+                    <div className="header-content">
+                        <h1 className="dashboard-title">Add New Product</h1>
+                        <p className="dashboard-subtitle">Fill in the details to add a new item to the catalog</p>
+                        <div className="header-divider"></div>
                     </div>
                 </header>
 
@@ -87,7 +88,7 @@ return (
                                         name="product_name"
                                         value={productData.product_name}
                                         onChange={handleChange}
-                                        placeholder="e.g., Wireless Headphones"
+                                        placeholder="e.g., Johnnie Walker"
                                         aria-required="true"
                                     />
                                 </div>
@@ -99,7 +100,7 @@ return (
                                         name="product_bio"
                                         value={productData.product_bio}
                                         onChange={handleChange}
-                                        placeholder="A brief description of the product"
+                                        placeholder="A brief description of the product like 100% pure alcohol, 40% ABV, etc."
                                         rows="4"
                                         aria-required="true"
                                     ></textarea>
@@ -114,7 +115,7 @@ return (
                                             name="product_price"
                                             value={productData.product_price}
                                             onChange={handleChange}
-                                            placeholder="e.g., 199.99"
+                                            placeholder="e.g., 1999"
                                             step="0.01"
                                             aria-required="true"
                                         />
@@ -144,7 +145,7 @@ return (
                                         name="category"
                                         value={productData.category}
                                         onChange={handleChange}
-                                        placeholder="e.g., Electronics"
+                                        placeholder="e.g., Beer, Wine, Spirits, etc."
                                         aria-required="true"
                                     />
                                 </div>

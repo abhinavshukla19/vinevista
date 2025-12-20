@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./deleteacc.css";
 import { Sidebar } from "../Sidebar/sidebar.jsx";
 import { useNavigate } from "react-router-dom";
-import { host, showError, showSuccess } from "../utils/toast.jsx";
+import { host, showError, showSuccess } from "../components/Alert";
 import axios from "axios";
 
 export const DeleteAccount = () => {

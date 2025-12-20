@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Plus, ShoppingCart, Wine, Star, AlertCircle, Package } from "lucide-react";
-import { host, showError, showSuccess } from "../../utils/toast";
+import { host, showError, showSuccess } from "../../components/Alert";
 
 export const Allproducts = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +24,7 @@ export const Allproducts = () => {
         setIsLoading(false);
       }
     };
+    
     fetchProducts();
   }, []);
 
@@ -146,68 +147,23 @@ export const Allproducts = () => {
       <Sidebar />
 
       <main className="dashboard-container">
-        <header className="dashboard-header">
-          <div className="header-content">
-            <h1>Dashboard</h1>
-            <p>Your wine collection at a glance</p>
-          </div>
-          <button
-            className="btn-add-product"
-            onClick={() => navigate("/add_product")}
-          >
-            <Plus size={20} />
-            <span>Add Product</span>
-          </button>
-        </header>
-
-        {/* Stats Overview */}
-        <section className="stats-section">
-          <div className="stat-card">
-            <div className="stat-icon">
-              <Wine size={24} />
+          <header className="dashboard-header">
+            <div className="header-content">
+              <h1 className="dashboard-title">Welcome to new world</h1>
+              <p className="dashboard-subtitle">Your private wine collection, curated for you</p>
+              <div className="header-divider"></div>
             </div>
-            <div className="stat-content">
-              <span className="stat-value">{products.length}</span>
-              <span className="stat-label">Total Products</span>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">
-              <Package size={24} />
-            </div>
-            <div className="stat-content">
-              <span className="stat-value">
-                {products.filter(p => p.category).length}
-              </span>
-              <span className="stat-label">Categories</span>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">
-              <Star size={24} />
-            </div>
-            <div className="stat-content">
-              <span className="stat-value">
-                {products.length > 0
-                  ? (
-                      products.reduce((sum, p) => sum + (parseFloat(p.rating) || 0), 0) /
-                      products.length
-                    ).toFixed(1)
-                  : "0.0"}
-              </span>
-              <span className="stat-label">Avg Rating</span>
-            </div>
-          </div>
-        </section>
+            <button
+              className="btn-add-product"
+              onClick={() => navigate("/add_product")}
+            >
+              <Plus size={20} />
+              <span>Add Product</span>
+            </button>
+          </header>
 
         {/* Products Grid */}
         <section className="products-section">
-          <div className="section-header">
-            <h2>All Products</h2>
-            <span className="product-count">{products.length} items</span>
-          </div>
 
           <div className="products-grid">
             {products.map((product, idx) => (

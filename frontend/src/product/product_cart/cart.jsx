@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './cart.css';
 import { Sidebar } from '../../Sidebar/sidebar';
-import { host, showError, showSuccess } from '../../utils/toast';
+import { host, showError, showSuccess } from '../../components/Alert';
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -61,6 +61,42 @@ export const Cart = () => {
       showError('Failed to remove item');
     }
   };
+
+  const handleincreasequantity=async(product_id)=>{
+    try{
+      const token=localStorage.getItem('token');
+      const response = await axios.post(`${host}/increase_quantity`,{
+        product_id:product_id
+      }, {
+        headers: { token }
+      })
+      if(response.status===200){
+        showSuccess('Quantity increased');
+        fetchCartItems();
+      }
+    } catch (error) {
+      console.error('Error increasing quantity:', error);
+      showError('Failed to increase quantity');
+    }
+  }
+
+  const handledecreasequantity=async(product_id)=>{
+    try{
+      const token=localStorage.getItem('token');
+      const response = await axios.post(`${host}/decrease_quantity`,{
+        product_id:product_id
+      }, {
+        headers: { token }
+      })
+      if(response.status===200){
+      showSuccess('Quantity decreased');
+        fetchCartItems();
+      }
+    } catch (error) {
+      console.error('Error decreasing quantity:', error);
+      showError('Failed to decrease quantity');
+    }
+  }
 
   const handlePlaceOrder = () => {
     if (cartItems.length === 0) {
@@ -167,6 +203,7 @@ export const Cart = () => {
                         <button 
                           className="qty-btn"
                           aria-label="Decrease quantity"
+                          onClick={() => handledecreasequantity(item.product_id)}
                         >
                           <Minus size={16} />
                         </button>
@@ -174,6 +211,7 @@ export const Cart = () => {
                         <button 
                           className="qty-btn"
                           aria-label="Increase quantity"
+                          onClick={() => handleincreasequantity(item.product_id)}
                         >
                           <Plus size={16} />
                         </button>
@@ -285,4 +323,5 @@ export const Cart = () => {
       </div>
     </div>
   );
-};
+} 
+export default Cart;

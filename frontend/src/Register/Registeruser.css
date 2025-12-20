@@ -217,6 +217,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: relative;
 }
 
 .form-group label {
@@ -245,6 +246,7 @@
 .input-wrapper select {
   width: 100%;
   padding: 1rem 1rem 1rem 3rem;
+  padding-right: 3.5rem;
   background: #1a1a1a;
   border: 1px solid rgba(220, 20, 60, 0.3);
   border-radius: 4px;
@@ -260,14 +262,20 @@
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23dc143c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 1rem center;
-  padding-right: 3rem;
-  background-color: #1a1a1a;
+  background-position: right 3.5rem center;
+  padding-right: 3.5rem;
+  background-color: #1a1a1a !important;
+}
+
+.input-wrapper select:focus {
+  background-color: #1f1f1f !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23dc143c' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-position: right 3.5rem center;
 }
 
 .input-wrapper select option {
-  background: #1a1a1a;
-  color: #ffffff;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
 }
 
 .input-wrapper input::placeholder {
@@ -278,11 +286,27 @@
 .input-wrapper input:focus,
 .input-wrapper select:focus {
   outline: none;
-  background: #1f1f1f;
+  background: #1f1f1f !important;
   border-color: rgba(220, 20, 60, 0.6);
   box-shadow: 0 0 20px rgba(220, 20, 60, 0.3);
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Fix autofill styling */
+.input-wrapper input:-webkit-autofill,
+.input-wrapper input:-webkit-autofill:hover,
+.input-wrapper input:-webkit-autofill:focus,
+.input-wrapper input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  background-color: #1a1a1a !important;
+}
+
+.input-wrapper input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+  background-color: #1f1f1f !important;
 }
 
 .input-wrapper input:disabled,
@@ -303,11 +327,177 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  z-index: 1;
+  z-index: 3;
 }
 
 .password-toggle:hover {
   color: #fff;
+}
+
+/* Validation States */
+.input-wrapper.valid input,
+.input-wrapper.valid select {
+  border-color: rgba(0, 255, 0, 0.5);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+}
+
+.input-wrapper.invalid input,
+.input-wrapper.invalid select {
+  border-color: rgba(220, 20, 60, 0.8);
+  box-shadow: 0 0 15px rgba(220, 20, 60, 0.3);
+}
+
+.validation-icon {
+  position: absolute;
+  right: 3.5rem;
+  pointer-events: none;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper:has(.password-toggle) .validation-icon {
+  right: 3.5rem;
+}
+
+.valid-icon {
+  color: #00ff00;
+  animation: fadeInScale 0.3s ease;
+}
+
+.invalid-icon {
+  color: #dc143c;
+  animation: fadeInScale 0.3s ease;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Error Messages */
+.error-message {
+  display: block;
+  color: #dc143c;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  padding-left: 0.5rem;
+  animation: slideDown 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.error-message::before {
+  content: '⚠';
+  font-size: 0.875rem;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Character Counter */
+.char-counter {
+  position: absolute;
+  right: 3.5rem;
+  font-size: 0.75rem;
+  color: #808080;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.input-wrapper.valid .char-counter {
+  color: #00ff00;
+}
+
+.input-wrapper.invalid .char-counter {
+  color: #dc143c;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.strength-fill {
+  height: 100%;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.strength-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Password Requirements */
+.password-requirements {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(220, 20, 60, 0.05);
+  border-radius: 4px;
+  border: 1px solid rgba(220, 20, 60, 0.2);
+}
+
+.req-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #808080;
+  transition: all 0.3s ease;
+}
+
+.req-item svg {
+  color: #808080;
+  transition: all 0.3s ease;
+}
+
+.req-item.met {
+  color: #00ff00;
+}
+
+.req-item.met svg {
+  color: #00ff00;
+}
+
+@media (max-width: 640px) {
+  .password-requirements {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Submit Button */

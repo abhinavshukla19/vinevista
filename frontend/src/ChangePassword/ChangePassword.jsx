@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { host, showError, showSuccess } from '../utils/toast.jsx';
+import { host, showError, showSuccess } from '../components/Alert';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./changepassword.css"

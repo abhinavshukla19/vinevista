@@ -252,9 +252,27 @@
 
 .input-wrapper input:focus {
   outline: none;
-  background: #1f1f1f;
+  background: #1f1f1f !important;
   border-color: rgba(220, 20, 60, 0.6);
   box-shadow: 0 0 20px rgba(220, 20, 60, 0.3);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Fix autofill styling */
+.input-wrapper input:-webkit-autofill,
+.input-wrapper input:-webkit-autofill:hover,
+.input-wrapper input:-webkit-autofill:focus,
+.input-wrapper input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  background-color: #1a1a1a !important;
+}
+
+.input-wrapper input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #1f1f1f inset !important;
+  background-color: #1f1f1f !important;
 }
 
 .input-wrapper input:disabled {

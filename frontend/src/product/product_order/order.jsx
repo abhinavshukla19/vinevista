@@ -13,7 +13,7 @@ import {
   IndianRupeeIcon,
 } from "lucide-react";
 import { Sidebar } from "../../Sidebar/sidebar";
-import { showError ,host } from "../../utils/toast"; 
+import { showError, host } from "../../components/Alert"; 
 import "./order.css";
 
 export const Order = () => {

@@ -2,10 +2,9 @@ import "./Profile.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { showError } from "../utils/toast.jsx";
+import { showError, host } from "../components/Alert";
 import { User, Mail, Phone, Calendar, Edit2, Lock, Activity, Shield, Award, Clock } from 'lucide-react';
 import { Sidebar } from "../Sidebar/sidebar.jsx";
-import { host } from "../utils/toast.jsx";
 
 export let Profile = () => {
     const [isLoading, setIsLoading] = useState(true);

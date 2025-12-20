@@ -1,10 +1,9 @@
 import "./signin.css";
 import { useState } from 'react';
-import { showError, showSuccess } from '../utils/toast.jsx';
+ import { showError, showSuccess, host } from '../components/Alert';
 import { Eye, EyeOff, Mail, Lock, Wine } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
-import { host } from "../utils/toast.jsx";
 
 export let Signinpage = () => {
     const [showPassword, setShowPassword] = useState(false);
