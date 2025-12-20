@@ -40,10 +40,10 @@
   width: 100%;
   background: #000000;
   min-height: 100vh;
+  margin-left: 260px;
   padding: 2rem;
   color: #fff;
   overflow-y: auto;
-  margin-left: 0;
 }
 
 @media (max-width: 880px) {

@@ -9,8 +9,8 @@
   flex: 1;
   width: 100%;
   min-height: 100vh;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  margin-left: 260px;
+  padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
   color: #fff;
@@ -577,6 +577,7 @@
 
 @media (max-width: 880px) {
   .dashboard-container {
+    margin-left: 0;
     padding: 1.5rem 1rem;
   }
 

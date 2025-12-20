@@ -12,11 +12,12 @@
   min-height: 100vh;
 }
 
-.main-content.delete-page-main {
+.main-content.delete-page-main,
+.main-content {
   flex: 1;
+  margin-left: 260px;
   padding: 2.5rem 3rem;
   max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
 }
 
@@ -406,7 +407,9 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .main-content.delete-page-main {
+  .main-content.delete-page-main,
+  .main-content {
+    margin-left: 0;
     padding: 1.5rem 1rem;
   }
 

@@ -27,7 +27,9 @@
   transition: width 240ms ease, transform 180ms ease;
   box-shadow: 6px 0 30px rgba(220, 20, 60, 0.2);
   z-index: 10;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   overflow-y: auto;
 }
 
