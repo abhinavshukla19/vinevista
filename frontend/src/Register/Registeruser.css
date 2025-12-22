@@ -236,17 +236,23 @@
 
 .input-icon {
   position: absolute;
-  left: 1rem;
+  left: 1.125rem;
+  top: 50%;
+  transform: translateY(-50%);
   color: #dc143c;
   pointer-events: none;
   z-index: 1;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .input-wrapper input,
 .input-wrapper select {
   width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
-  padding-right: 3.5rem;
+  padding: 1rem 4.5rem 1rem 3.5rem !important; /* Left: 3.5rem (56px) for icon, Right: 4.5rem (72px) for validation + toggle */
   background: #1a1a1a;
   border: 1px solid rgba(220, 20, 60, 0.3);
   border-radius: 4px;
@@ -256,6 +262,7 @@
   appearance: none;
   font-weight: 500;
   -webkit-text-fill-color: #ffffff !important;
+  box-sizing: border-box;
 }
 
 .input-wrapper select {
@@ -318,6 +325,8 @@
 .password-toggle {
   position: absolute;
   right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   color: #808080;
@@ -328,6 +337,8 @@
   justify-content: center;
   transition: all 0.3s ease;
   z-index: 3;
+  min-width: 32px;
+  height: auto;
 }
 
 .password-toggle:hover {
@@ -350,9 +361,14 @@
 .validation-icon {
   position: absolute;
   right: 3.5rem;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
   z-index: 2;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .input-wrapper:has(.password-toggle) .validation-icon {
@@ -671,6 +687,12 @@
     font-size: 1.5rem;
   }
 
+  /* Ensure input padding on mobile */
+  .input-wrapper input,
+  .input-wrapper select {
+    padding: 1rem 4rem 1rem 3.25rem !important;
+  }
+
   .orb-1,
   .orb-2,
   .orb-3 {
@@ -691,6 +713,13 @@
 
   .register-form-card {
     padding: 1.5rem 1rem;
+  }
+
+  /* Ensure input padding on small mobile */
+  .input-wrapper input,
+  .input-wrapper select {
+    padding: 0.875rem 3.5rem 0.875rem 3rem !important;
+    font-size: 0.95rem;
   }
 }
 

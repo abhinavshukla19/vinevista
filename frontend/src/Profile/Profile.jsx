@@ -76,69 +76,49 @@ export let Profile = () => {
             <Sidebar />
             
             <main className="profile-container">
-                {/* Header */}
+                {/* Page Header */}
                 <header className="profile-header">
-                    <div className="header-content">
-                        <h1>My Profile</h1>
-                        <p>Manage your personal information and account settings</p>
-                    </div>
+                    <h1>My Profile</h1>
+                    <p>Manage your personal information and account settings</p>
                 </header>
 
-                {/* Profile Hero Section */}
-                <section className="profile-hero">
-                    <div className="hero-background"></div>
-                    
-                    <div className="profile-card-main">
-                        <div className="avatar-section">
-                            <div 
-                                className="avatar-container"
-                                style={!user?.profilePicUrl ? { 
-                                    background: `linear-gradient(135deg, ${bg1}, ${bg2})` 
-                                } : undefined}
-                            >
-                                <div className="avatar-ring"></div>
-                                {user?.profilePicUrl ? (
-                                    <img 
-                                        className="avatar-image" 
-                                        src={user.profilePicUrl} 
-                                        alt={user?.name || "user avatar"}
-                                        onError={(e) => { 
-                                            e.currentTarget.style.display = "none"; 
-                                            e.currentTarget.parentElement.style.background = `linear-gradient(135deg, ${bg1}, ${bg2})`; 
-                                        }} 
-                                    />
-                                ) : (
-                                    <div className="avatar-initials">{initials}</div>
-                                )}
-                            </div>
-                            
-                            <div className="user-info">
-                                <h2 className="user-name">{user?.name || "User Name"}</h2>
-                                <p className="user-email">{user?.email || "user@example.com"}</p>
-                                
-                                <div className="user-meta">
-                                    <div className="status-badge active">
-                                        <span className="status-dot"></span>
-                                        <span>Active Account</span>
-                                    </div>
-                                    <div className="join-date">
-                                        <Calendar size={16} />
-                                        <span>Joined {formatJoinDate(user?.createdAt)}</span>
-                                    </div>
-                                </div>
+                {/* Profile Header Section */}
+                <section className="profile-header-section">
+                    <div className="profile-header-content">
+                        <div className="profile-avatar">
+                            {user?.profilePicUrl ? (
+                                <img 
+                                    className="avatar-image" 
+                                    src={user.profilePicUrl} 
+                                    alt={user?.name || "user avatar"}
+                                    onError={(e) => { 
+                                        e.currentTarget.style.display = "none"; 
+                                    }} 
+                                />
+                            ) : (
+                                <div className="avatar-initials">{initials}</div>
+                            )}
+                        </div>
+                        
+                        <div className="profile-info">
+                            <h2 className="profile-name">{user?.name || "User Name"}</h2>
+                            <p className="profile-email">{user?.email || "user@example.com"}</p>
+                            <div className="profile-status">
+                                <span className="status-dot"></span>
+                                <span>Active Account</span>
                             </div>
                         </div>
 
-                        <div className="action-buttons">
+                        <div className="profile-actions">
                             <button 
-                                className="btn-primary" 
+                                className="btn-edit" 
                                 onClick={() => navigate("/edit_profile")}
                             >
                                 <Edit2 size={18} />
                                 <span>Edit Profile</span>
                             </button>
                             <button 
-                                className="btn-secondary" 
+                                className="btn-password" 
                                 onClick={() => navigate("/change_password")}
                             >
                                 <Lock size={18} />
@@ -148,154 +128,56 @@ export let Profile = () => {
                     </div>
                 </section>
 
-                {/* Content Grid */}
-                <div className="profile-grid">
-                    {/* Left Column */}
-                    <div className="grid-main">
-                        {/* Personal Details Card */}
-                        <div className="info-card">
-                            <div className="card-header">
-                                <User size={20} />
-                                <h3>Personal Information</h3>
-                            </div>
-                            <div className="card-body">
-                                <div className="info-row">
-                                    <div className="info-item">
-                                        <div className="info-icon">
-                                            <User size={18} />
-                                        </div>
-                                        <div className="info-content">
-                                            <span className="info-label">Full Name</span>
-                                            <span className="info-value">{user?.name || "—"}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="info-item">
-                                        <div className="info-icon">
-                                            <Mail size={18} />
-                                        </div>
-                                        <div className="info-content">
-                                            <span className="info-label">Email Address</span>
-                                            <span className="info-value">{user?.email || "—"}</span>
-                                        </div>
-                                    </div>
+                {/* Content Sections */}
+                <div className="profile-content">
+                    {/* Main Content */}
+                    <div className="profile-main">
+                        {/* Personal Information Section */}
+                        <section className="profile-section">
+                            <h3 className="section-title">Personal Information</h3>
+                            <div className="info-grid">
+                                <div className="info-field">
+                                    <span className="field-label">Full Name</span>
+                                    <span className="field-value">{user?.name || "—"}</span>
                                 </div>
-
-                                <div className="info-row">
-                                    <div className="info-item">
-                                        <div className="info-icon">
-                                            <Phone size={18} />
-                                        </div>
-                                        <div className="info-content">
-                                            <span className="info-label">Phone Number</span>
-                                            <span className="info-value">{user?.phonenumber || "—"}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="info-item">
-                                        <div className="info-icon">
-                                            <User size={18} />
-                                        </div>
-                                        <div className="info-content">
-                                            <span className="info-label">Gender</span>
-                                            <span className="info-value">{user?.gender || "—"}</span>
-                                        </div>
-                                    </div>
+                                <div className="info-field">
+                                    <span className="field-label">Email Address</span>
+                                    <span className="field-value">{user?.email || "—"}</span>
+                                </div>
+                                <div className="info-field">
+                                    <span className="field-label">Phone Number</span>
+                                    <span className="field-value">{user?.phonenumber || "—"}</span>
+                                </div>
+                                <div className="info-field">
+                                    <span className="field-label">Gender</span>
+                                    <span className="field-value">{user?.gender || "—"}</span>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Activity Timeline Card */}
-                        <div className="info-card">
-                            <div className="card-header">
-                                <Clock size={20} />
-                                <h3>Recent Activity</h3>
-                            </div>
-                            <div className="card-body">
-                                <div className="timeline">
-                                    <div className="timeline-item">
-                                        <div className="timeline-marker"></div>
-                                        <div className="timeline-content">
-                                            <span className="timeline-text">Profile updated</span>
-                                            <span className="timeline-time">2 days ago</span>
-                                        </div>
-                                    </div>
-                                    <div className="timeline-item">
-                                        <div className="timeline-marker"></div>
-                                        <div className="timeline-content">
-                                            <span className="timeline-text">Password changed</span>
-                                            <span className="timeline-time">3 months ago</span>
-                                        </div>
-                                    </div>
-                                    <div className="timeline-item">
-                                        <div className="timeline-marker"></div>
-                                        <div className="timeline-content">
-                                            <span className="timeline-text">Account created</span>
-                                            <span className="timeline-time">{formatJoinDate(user?.createdAt)}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </section>
                     </div>
 
-                    {/* Right Column */}
-                    <div className="grid-sidebar">
-                        {/* Stats Card */}
-                        <div className="info-card stats-card">
-                            <div className="card-header">
-                                <Activity size={20} />
-                                <h3>Account Stats</h3>
-                            </div>
-                            <div className="card-body">
-                                <div className="stat-item">
-                                    <div className="stat-icon">
-                                        <Award size={24} />
-                                    </div>
-                                    <div className="stat-content">
-                                        <span className="stat-value">Active</span>
-                                        <span className="stat-label">Account Status</span>
-                                    </div>
+                    {/* Sidebar Content */}
+                    <div className="profile-sidebar">
+                        {/* Account Stats */}
+                        <section className="profile-section">
+                            <h3 className="section-title">Account</h3>
+                            <div className="stats-list">
+                                <div className="stat-row">
+                                    <span className="stat-label">Status</span>
+                                    <span className="stat-value">Active</span>
                                 </div>
-                                <div className="stat-divider"></div>
-                                <div className="stat-item">
-                                    <div className="stat-icon">
-                                        <Calendar size={24} />
-                                    </div>
-                                    <div className="stat-content">
-                                        <span className="stat-value">
-                                            {user?.createdAt ? new Date(user.createdAt).getFullYear() : '—'}
-                                        </span>
-                                        <span className="stat-label">Member Since</span>
-                                    </div>
+                                <div className="stat-row">
+                                    <span className="stat-label">Member Since</span>
+                                    <span className="stat-value">
+                                        {user?.created_at ? new Date(user.created_at).getFullYear() : '—'}
+                                    </span>
+                                </div>
+                                <div className="stat-row">
+                                    <span className="stat-label">Joined</span>
+                                    <span className="stat-value">{formatJoinDate(user?.created_at)}</span>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Security Card */}
-                        <div className="info-card security-card">
-                            <div className="card-header">
-                                <Shield size={20} />
-                                <h3>Account Security</h3>
-                            </div>
-                            <div className="card-body">
-                                <div className="security-item">
-                                    <div className="security-icon">
-                                        <Lock size={20} />
-                                    </div>
-                                    <div className="security-content">
-                                        <span className="security-title">Password</span>
-                                        <span className="security-desc">Last changed 3 months ago</span>
-                                    </div>
-                                </div>
-                                <button 
-                                    className="security-btn"
-                                    onClick={() => navigate("/change_password")}
-                                >
-                                    Update Password
-                                </button>
-                            </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </main>

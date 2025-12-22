@@ -230,13 +230,21 @@
 .input-icon {
   position: absolute;
   left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   color: #808080;
   pointer-events: none;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .input-wrapper input {
   width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
+  padding: 1rem 3.5rem 1rem 3.5rem !important; /* Left: 3.5rem (56px) for lock icon, Right: 3.5rem (56px) for toggle button */
   background: #1a1a1a;
   border: 1px solid rgba(220, 20, 60, 0.3);
   border-radius: 4px;
@@ -244,6 +252,7 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   font-weight: 500;
+  box-sizing: border-box;
 }
 
 .input-wrapper input::placeholder {
@@ -283,6 +292,8 @@
 .password-toggle {
   position: absolute;
   right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
   color: #808080;
@@ -292,6 +303,9 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  z-index: 2;
+  min-width: 32px;
+  height: auto;
 }
 
 .password-toggle:hover {
@@ -501,6 +515,11 @@
     gap: 0.75rem;
   }
 
+  /* Ensure input padding on mobile */
+  .input-wrapper input {
+    padding: 1rem 3.25rem 1rem 3.25rem !important;
+  }
+
   .orb-1,
   .orb-2,
   .orb-3 {
@@ -517,6 +536,12 @@
   .signin-content {
     display: flex;
     justify-content: center;
+  }
+
+  /* Ensure input padding on small mobile */
+  .input-wrapper input {
+    padding: 0.875rem 3rem 0.875rem 3rem !important;
+    font-size: 0.95rem;
   }
 }
 

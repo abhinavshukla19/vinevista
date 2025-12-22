@@ -579,29 +579,56 @@
   .dashboard-container {
     margin-left: 0;
     padding: 1.5rem 1rem;
+    padding-top: 5rem; /* Space for hamburger menu and add button */
   }
 
   .dashboard-header {
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
+    justify-content: space-between;
     position: relative;
-    padding: 1.5rem 0;
+    padding: 0.75rem 0;
+    margin-bottom: 0.75rem;
   }
   
   .dashboard-title {
-    font-size: 2rem;
-    letter-spacing: 5px;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    margin-bottom: 0.4rem;
   }
   
   .dashboard-subtitle {
-    font-size: 0.85rem;
-    letter-spacing: 1.5px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    opacity: 0.6;
   }
 
+  .header-divider {
+    margin-top: 0.5rem;
+  }
+
+  /* Add Product Button - Compact on tablets */
   .btn-add-product {
-    width: 100%;
-    justify-content: center;
-    margin-top: 1rem;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: auto;
+    min-width: 44px;
+    height: 44px;
+    padding: 0.75rem 1rem;
+    border-radius: 22px;
+    z-index: 150;
+    margin-top: 0;
+  }
+
+  .btn-add-product span {
+    font-size: 0.8rem;
+  }
+
+  .btn-add-product svg {
+    width: 18px;
+    height: 18px;
   }
 
   .products-grid {
@@ -628,8 +655,227 @@
 }
 
 @media (max-width: 640px) {
+  /* Dashboard Container - Products appear immediately at top */
+  .dashboard-container {
+    padding-top: 2.5rem; /* Only space for floating button, no header */
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-bottom: 1rem;
+  }
+
+  /* Header - Completely Hidden on Mobile */
+  .dashboard-header {
+    display: none !important; /* Completely hide header on mobile */
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+    height: 0;
+  }
+
+  .header-content {
+    display: none !important;
+  }
+
+  .dashboard-title {
+    display: none !important; /* Hide "WELCOME TO NEW WORLD" text */
+  }
+  
+  .dashboard-subtitle {
+    display: none !important; /* Completely remove slogan on mobile */
+  }
+  
+  .header-divider {
+    display: none !important; /* Remove divider */
+  }
+
+  /* Add Product Button - Floating Admin Button, No Overlap */
+  .btn-add-product {
+    position: fixed;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 150;
+    box-shadow: 0 4px 16px rgba(220, 20, 60, 0.4);
+    margin-top: 0;
+    /* Ensure no content overlap */
+    pointer-events: auto;
+  }
+
+  .btn-add-product span {
+    display: none; /* Hide text, show only icon */
+  }
+
+  .btn-add-product svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Products Grid - 2 per screen */
   .products-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .products-section {
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  /* Product Card - Compact, Clear Borders */
+  .product-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(220, 20, 60, 0.25); /* Maintain visible border */
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(220, 20, 60, 0.3);
+  }
+
+  /* Product Image - Clean, No Overlays on Mobile */
+  .product-image-wrapper {
+    height: 110px; /* Slightly reduced for faster scrolling */
+  }
+
+  /* Hide product overlay (cart icon) on mobile - keep images clean */
+  .product-overlay {
+    display: none !important;
+  }
+
+  .btn-cart {
+    display: none !important;
+  }
+
+  /* Product Details - Tighter Padding, Minimal Text */
+  .product-details {
+    padding: 0.55rem;
+  }
+
+  .product-category {
+    font-size: 0.6rem;
+    padding: 0.3rem 0.55rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.8px;
+    opacity: 0.7;
+    background: rgba(220, 20, 60, 0.1);
+    border-color: rgba(220, 20, 60, 0.25);
+  }
+
+  .product-name {
+    font-size: 0.85rem;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.25;
+    -webkit-line-clamp: 2;
+    font-weight: 600;
+  }
+
+  /* Hide description on mobile for cleaner look */
+  .product-description {
+    display: none; /* Hide description completely on mobile */
+  }
+
+  /* Product Footer - Tighter Spacing */
+  .product-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid rgba(220, 20, 60, 0.15);
+    margin-top: 0.15rem;
+  }
+
+  .product-price {
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+
+  /* Add to Cart Button - Reduced Height, Lower Intensity */
+  .btn-add-cart {
+    width: 100%;
+    justify-content: center;
+    padding: 0.45rem 0.65rem;
+    font-size: 0.65rem;
+    min-height: 36px; /* Reduced from 40px */
+    height: 36px;
+    background: transparent;
+    border: 1px solid rgba(220, 20, 60, 0.35); /* Softer border */
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500; /* Reduced from 600 */
+    letter-spacing: 0.6px;
+  }
+
+  .btn-add-cart:hover {
+    background: rgba(220, 20, 60, 0.12);
+    border-color: rgba(220, 20, 60, 0.5);
+    transform: none;
+    box-shadow: 0 1px 4px rgba(220, 20, 60, 0.15);
+  }
+
+  .btn-add-cart:active {
+    background: rgba(220, 20, 60, 0.18);
+    transform: scale(0.98);
+  }
+
+  .btn-add-cart svg {
+    width: 12px;
+    height: 12px;
+    opacity: 0.85;
+  }
+
+  /* Ratings - More Subtle, Don't Compete with Name/Price */
+  .rating-badge {
+    top: 0.4rem;
+    right: 0.4rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(220, 20, 60, 0.3);
+    opacity: 0.85;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .rating-badge svg {
+    width: 9px;
+    height: 9px;
+    opacity: 0.8;
+  }
+
+  .rating-badge span {
+    opacity: 0.9;
+  }
+
+  /* Overlay Cart Button - Smaller but touch-friendly */
+  .btn-cart {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .btn-cart svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Touch-friendly spacing */
+  .product-card {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Ensure no accidental taps - increase tap target spacing */
+  .product-footer {
+    margin-top: 0.25rem;
   }
 
   .section-header {
@@ -638,38 +884,131 @@
     gap: 1rem;
   }
 
-  .product-image-wrapper {
-    height: 280px;
-  }
+  /* Prevent hover effects on mobile (touch devices) */
+  @media (hover: none) and (pointer: coarse) {
+    .product-card:hover {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
 
-  .product-footer {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-  }
+    .product-card:hover .product-image {
+      transform: none;
+      filter: brightness(0.9);
+    }
 
-  .btn-add-cart {
-    width: 100%;
-    justify-content: center;
+    .product-card:hover .product-overlay {
+      opacity: 0;
+    }
+
+    .product-overlay {
+      opacity: 0;
+    }
   }
 }
 
 @media (max-width: 480px) {
+  /* Even more compact for very small screens - Products at top */
+  .dashboard-container {
+    padding: 0.75rem;
+    padding-top: 2.25rem; /* Only space for floating button, no header gap */
+    padding-bottom: 1rem;
+  }
+
+  /* Header - Completely Hidden on Very Small Screens */
+  .dashboard-header {
+    display: none !important;
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+    height: 0;
+  }
+
+  .header-content {
+    display: none !important;
+  }
+
   .dashboard-title {
-    font-size: 1.5rem;
-    letter-spacing: 3px;
+    display: none !important; /* Hide "WELCOME TO NEW WORLD" text */
   }
   
   .dashboard-subtitle {
-    font-size: 0.75rem;
-    letter-spacing: 1px;
+    display: none !important; /* Completely remove slogan */
   }
   
   .header-divider {
-    margin-top: 1rem;
+    display: none !important; /* Hide divider */
+  }
+
+  /* Add Product Button - Floating Admin Button */
+  .btn-add-product {
+    top: 0.65rem;
+    right: 0.65rem;
+    width: 44px;
+    height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* Products Grid - Maintain 2 columns */
+  .products-grid {
+    gap: 0.6rem;
+  }
+
+  /* Product Image - Further reduced, clean */
+  .product-image-wrapper {
+    height: 105px; /* Slightly smaller for very small screens */
+  }
+
+  /* Ensure overlay is hidden on mobile */
+  .product-overlay {
+    display: none !important;
+  }
+
+  .btn-cart {
+    display: none !important;
+  }
+
+  /* Product Details - Even more compact */
+  .product-details {
+    padding: 0.5rem;
+  }
+
+  .product-name {
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+  }
+
+  /* Hide description completely */
+  .product-description {
+    display: none !important;
+  }
+
+  .product-category {
+    font-size: 0.55rem;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .product-price {
+    font-size: 0.9rem;
+  }
+
+  /* Add to Cart Button - Reduced height and intensity */
+  .btn-add-cart {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.65rem;
+    min-height: 36px;
+    height: 36px;
+    touch-action: manipulation;
+  }
+
+  /* Ratings - Even smaller */
+  .rating-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
   }
 
   .product-card {
-    border-radius: 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(220, 20, 60, 0.25); /* Maintain visible border */
   }
 }

@@ -10,6 +10,7 @@ export const Allproducts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const [userRole, setUserRole] = useState("user"); // Default to "user"
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,8 +25,37 @@ export const Allproducts = () => {
         setIsLoading(false);
       }
     };
+
+    // Fetch user role
+    const fetchUserRole = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setUserRole("user");
+        return;
+      }
+
+      try {
+        const res = await axios.post(`${host}/user_profile`, {}, { headers: { token } });
+        let payload = res?.data;
+        if (typeof payload === "string") {
+          try {
+            payload = JSON.parse(payload);
+          } catch {}
+        }
+        const arrayCandidate = Array.isArray(payload?.data) ? payload?.data[0] : null;
+        const userData = payload?.data?.user ?? payload?.user ?? payload?.data ?? arrayCandidate ?? payload;
+        // Set role, default to "user" if not found
+        const role = userData?.role || userData?.userRole || "user";
+        setUserRole(role);
+      } catch (err) {
+        // If fetch fails, default to "user"
+        setUserRole("user");
+        console.error("Failed to fetch user role:", err);
+      }
+    };
     
     fetchProducts();
+    fetchUserRole();
   }, []);
 
   const Cart = async (product_id) => {
@@ -82,13 +112,15 @@ export const Allproducts = () => {
               <h1>Dashboard</h1>
               <p>Your wine collection at a glance</p>
             </div>
-            <button
-              className="btn-add-product"
-              onClick={() => navigate("/add_product")}
-            >
-              <Plus size={20} />
-              <span>Add Product</span>
-            </button>
+            {userRole === "admin" && (
+              <button
+                className="btn-add-product"
+                onClick={() => navigate("/add_product")}
+              >
+                <Plus size={20} />
+                <span>Add Product</span>
+              </button>
+            )}
           </header>
 
           <div className="error-state">
@@ -115,26 +147,30 @@ export const Allproducts = () => {
               <h1>Dashboard</h1>
               <p>Your wine collection at a glance</p>
             </div>
-            <button
-              className="btn-add-product"
-              onClick={() => navigate("/add_product")}
-            >
-              <Plus size={20} />
-              <span>Add Product</span>
-            </button>
+            {userRole === "admin" && (
+              <button
+                className="btn-add-product"
+                onClick={() => navigate("/add_product")}
+              >
+                <Plus size={20} />
+                <span>Add Product</span>
+              </button>
+            )}
           </header>
 
           <div className="empty-state">
             <Package className="empty-icon" />
             <h2>No Products Yet</h2>
             <p>Start building your wine collection by adding your first product</p>
-            <button
-              className="btn-add-product"
-              onClick={() => navigate("/add_product")}
-            >
-              <Plus size={20} />
-              <span>Add Your First Product</span>
-            </button>
+            {userRole === "admin" && (
+              <button
+                className="btn-add-product"
+                onClick={() => navigate("/add_product")}
+              >
+                <Plus size={20} />
+                <span>Add Your First Product</span>
+              </button>
+            )}
           </div>
         </main>
       </div>
@@ -153,13 +189,15 @@ export const Allproducts = () => {
               <p className="dashboard-subtitle">Your private wine collection, curated for you</p>
               <div className="header-divider"></div>
             </div>
-            <button
-              className="btn-add-product"
-              onClick={() => navigate("/add_product")}
-            >
-              <Plus size={20} />
-              <span>Add Product</span>
-            </button>
+            {userRole === "admin" ? (
+              <button
+                className="btn-add-product"
+                onClick={() => navigate("/add_product")}
+              >
+                <Plus size={20} />
+                <span>Add Product</span>
+              </button>
+            ) : null}
           </header>
 
         {/* Products Grid */}
