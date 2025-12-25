@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from '../../Sidebar/sidebar.jsx';
-import { showError, showSuccess, host } from '../../components/Alert';
+import { host , showError , showSuccess } from "../../components/Alert-box/Alert";
 import "./addproduct.css"; 
 
 export const AddProduct = () => {

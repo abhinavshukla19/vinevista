@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {
-  Package,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Wine,
-  Calendar,
-  DollarSign,
-  ShoppingBag,
-  IndianRupeeIcon,
-} from "lucide-react";
+import { Package,Clock,CheckCircle, XCircle, Wine, Calendar, ShoppingBag, IndianRupeeIcon} from "lucide-react";
 import { Sidebar } from "../../Sidebar/sidebar";
-import { showError, host } from "../../components/Alert"; 
+import { host ,showError,showSuccess } from "../../components/Alert-box/Alert";
 import "./order.css";
 
 export const Order = () => {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { host, showError, showSuccess } from '../components/Alert';
+import { host ,showError,showSuccess } from '../components/Alert-box/Alert.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./changepassword.css"

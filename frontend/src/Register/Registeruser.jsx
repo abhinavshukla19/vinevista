@@ -1,6 +1,6 @@
 import "./Registeruser.css"; 
 import { useState } from 'react';
-import { showError, showSuccess, host } from '../components/Alert';
+import { host, showError , showSuccess } from "../components/Alert-box/Alert";
 import { Eye, EyeOff, User, Mail, Lock, Phone, Users, Wine, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';

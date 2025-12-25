@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './cart.css';
 import { Sidebar } from '../../Sidebar/sidebar';
-import { host, showError, showSuccess } from '../../components/Alert';
+import { host , showError,showSuccess } from '../../components/Alert-box/Alert';
 
 export const Cart = () => {
   const navigate = useNavigate();

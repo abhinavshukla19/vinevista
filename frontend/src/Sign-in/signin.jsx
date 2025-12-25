@@ -1,6 +1,6 @@
 import "./signin.css";
 import { useState } from 'react';
- import { showError, showSuccess, host } from '../components/Alert';
+import { host , showError , showSuccess } from "../components/Alert-box/Alert";
 import { Eye, EyeOff, Mail, Lock, Wine } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";

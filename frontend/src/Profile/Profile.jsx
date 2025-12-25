@@ -2,8 +2,8 @@ import "./Profile.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { showError, host } from "../components/Alert";
-import { User, Mail, Phone, Calendar, Edit2, Lock, Activity, Shield, Award, Clock } from 'lucide-react';
+import { showError ,host } from "../components/Alert-box/Alert.jsx";
+import { User, Mail, Phone, Calendar, Edit2, Lock, Activity} from 'lucide-react';
 import { Sidebar } from "../Sidebar/sidebar.jsx";
 
 export let Profile = () => {

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Registrationpage } from "./Register/Registeruser";
 import { Signinpage } from "./Sign-in/signin";
 import { Profile } from "./Profile/Profile";
-import { AlertProvider } from "./components/Alert";
+import { AlertProvider } from "./components/Alert-box/Alert.jsx";
 import { AddProduct } from "./product/Add product/addproduct.jsx";
 import {ChangePassword} from "./ChangePassword/ChangePassword.jsx"
 import { Allproducts } from "./product/All products/allproducts.jsx";
