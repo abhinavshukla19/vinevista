@@ -1,8 +1,8 @@
 import "./allproducts.css";
+import axios from "axios";
 import { Sidebar } from "../../Sidebar/sidebar";
 import { useEffect, useState ,useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Plus, Wine, AlertCircle } from "lucide-react";
 import { host , showError , showSuccess } from "../../components/Alert-box/Alert";
 import { Dashboardheader } from "../../components/Dashboard-header/dashboardheader";
@@ -38,8 +38,6 @@ export const Allproducts = () => {
   }, []);
 
 
-
- 
 // search for product by name or category
 const productfilter=useMemo(()=>{
   if(!debouncesearch){
@@ -109,7 +107,7 @@ const productfilter=useMemo(()=>{
               <h1>Dashboard</h1>
               <p>Your wine collection at a glance</p>
             </div>
-            {userRole === "admin" && (
+            {UserRole === "admin" && (
               <button
                 className="btn-add-product"
                 onClick={() => navigate("/add_product")}

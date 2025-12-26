@@ -7,7 +7,7 @@ export const Productcard=({productfilter , OnAddtocart })=>{
         <section className="products-section">
           <div className="products-grid">
             {(productfilter.length == 0)?
-            <div> No matching products </div>:
+            <div className="no-results-found"> No matching products </div>:
             (productfilter.map((product, idx) => (
               <article
                 className="product-card"

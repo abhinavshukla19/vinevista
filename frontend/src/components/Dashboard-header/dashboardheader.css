@@ -42,9 +42,92 @@
   height: 2px;
   background: linear-gradient(90deg, #dc143c, transparent);
   margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 
+/* ===============================
+   SEARCH CONTAINER
+================================ */
 
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  margin-top: 1rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: rgba(220, 20, 60, 0.6);
+  z-index: 1;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  background: linear-gradient(145deg, rgba(15, 15, 15, 0.6), rgba(26, 26, 26, 0.6));
+  border: 1.5px solid rgba(220, 20, 60, 0.2);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  outline: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+}
+
+.search-input:focus {
+  border-color: rgba(220, 20, 60, 0.5);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(220, 20, 60, 0.2);
+  background: linear-gradient(145deg, rgba(20, 20, 20, 0.7), rgba(30, 30, 30, 0.7));
+}
+
+.search-container:focus-within .search-icon {
+  color: rgba(220, 20, 60, 0.8);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(220, 20, 60, 0.2);
+  border: 1px solid rgba(220, 20, 60, 0.3);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+}
+
+.search-clear-btn:hover {
+  background: rgba(220, 20, 60, 0.4);
+  border-color: rgba(220, 20, 60, 0.6);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(220, 20, 60, 0.3);
+}
+
+.search-clear-btn:active {
+  transform: scale(0.95);
+}
 
 .btn-add-product {
   display: flex;
@@ -74,3 +157,142 @@
 .btn-add-product:active {
   transform: translateY(0);
 }
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+  }
+
+  .dashboard-subtitle {
+    display: none;
+  }
+
+  .header-divider {
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .search-container {
+    max-width: 100%;
+    margin-top: 0.5rem;
+    padding-left: 0;
+  }
+
+  .search-input {
+    padding: 0.65rem 0.85rem 0.65rem 2.5rem;
+    font-size: 0.85rem;
+  }
+
+  .search-icon {
+    left: 0.85rem;
+  }
+
+  .search-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .search-clear-btn {
+    right: 0.65rem;
+    width: 24px;
+    height: 24px;
+  }
+
+  .search-clear-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .btn-add-product {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1.2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0;
+  }
+
+  .header-content {
+    display: none;
+  }
+
+  .search-container {
+    flex: 1;
+    margin-top: 0;
+    padding-left: 0;
+  }
+
+  .search-input {
+    padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+    font-size: 0.8rem;
+  }
+
+  .search-icon {
+    left: 0.75rem;
+  }
+
+  .search-clear-btn {
+    right: 0.5rem;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0;
+  }
+
+  .header-content {
+    display: none;
+  }
+
+  .search-container {
+    flex: 1;
+    max-width: calc(100% - 3.5rem);
+    margin-top: 0;
+    padding-left: 0;
+  }
+
+  .search-input {
+    padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+    font-size: 0.8rem;
+  }
+
+  .search-icon {
+    left: 0.75rem;
+  }
+
+  .search-clear-btn {
+    right: 0.5rem;
+    width: 22px;
+    height: 22px;
+  }
+
+  .btn-add-product {
+    display: none;
+  }
+}     
