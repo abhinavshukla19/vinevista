@@ -8,88 +8,59 @@ const { authMiddleware } = require("./auth-middleware");
 orders.use(authMiddleware);
 
 // add product to orders (like "buy now" / place order)
-orders.post("/product_to_cart", async (req, res) => {
-  const { product_id } = req.body;
-  const user_id = req.decode.id;
+orders.post("/checkout", async (req, res) => {
+    const user_id=req.decode.id;
 
-  if (!product_id) {
-    return res.status(400).json({ success: false, message: "Product ID is required" });
-  }
+    try {
+        
+        await database.query('BEGIN');
 
-  try {
-    // Postgres style: $1, $2
-    await database.query(
-      "INSERT INTO orders_data (user_id, product_id) VALUES ($1, $2)",
-      [user_id, product_id]
-    );
+        await database.query( `INSERT INTO orders_data (user_id, product_id, quantity, created_at) 
+            SELECT user_id, product_id, quantity, NOW()
+            FROM cart
+            WHERE user_id = $1;`,
+            [user_id])
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Product added to orders" });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Server error" });
+        await database.query( `DELETE FROM cart WHERE user_id = $1;`,[user_id])
+
+        await database.query("COMMIT");
+
+        return res.json({ message: "Order placed successfully" });
+  } catch (err) {
+    await database.query("ROLLBACK");
+    return res.status(500).json({ message: "Checkout failed" });
   }
 });
 
-// to view orders
-orders.get("/orders", async (req, res) => {
-  const user_id = req.decode.id;
 
-  try {
-    // get user info (no password)
-    const { rows: userRows } = await database.query(
-      "SELECT name FROM users_login WHERE id = $1",
-      [user_id]
-    );
+//  get orders
+orders.get("/get_orders",async (req,res)=>{
+    const user_id=req.decode.id;
+    
+    try {
+        const results=await database.query(`SELECT 
+        o.order_id,
+        o.quantity,
+        o.created_at,
+        p.product_name,
+        p.product_price,
+        p.product_url
+        FROM orders_data o
+        JOIN product_data p ON o.product_id = p.product_id
+        WHERE o.user_id = $1
+        ORDER BY o.created_at DESC;`,[user_id]
+)
 
-    if (userRows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+    if (results.rowCount > 0) {
+        return res.status(200).json({"order":results.rows ,"totalorders":results.rowCount})
     }
+    return res.status(200).json({"message":"No orders till now"})
 
-    const user_name = userRows[0].name;
-
-    // get all orders for this user
-    const { rows: order_data } = await database.query(
-      "SELECT * FROM orders_data WHERE user_id = $1",
-      [user_id]
-    );
-
-    // no orders yet
-    if (order_data.length === 0) {
-      return res.status(200).json({
-        success: true,
-        user_name,
-        orders: [],
-        products: [],
-      });
+} catch (error) {
+    return res.status(500).json({ message: "Failed to fetch orders" });
     }
+})
 
-    const productIds = order_data.map(order => order.product_id);
 
-    // fetch all products for these IDs in one query
-    const { rows: products } = await database.query(
-      "SELECT * FROM product_data WHERE product_id = ANY($1)",
-      [productIds]
-    );
-
-    return res.status(200).json({
-      success: true,
-      user_name,
-      orders: order_data,
-      products,
-    });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Server error" });
-  }
-});
 
 module.exports = orders;
