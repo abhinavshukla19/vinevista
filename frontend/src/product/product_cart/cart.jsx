@@ -98,13 +98,23 @@ export const Cart = () => {
     }
   }
 
-  const handlePlaceOrder = () => {
-    if (cartItems.length === 0) {
-      showError('Your cart is empty!');
-      return;
+
+  const handlePlaceOrder = async () => {
+    try{
+      const token=localStorage.getItem('token');
+      const response = await axios.post(`${host}/checkout`,{}, {
+        headers: { token }
+      })
+      if(response.status===200){
+        showSuccess('Order placed successfully');
+        fetchCartItems();
+      }
+    } catch (error) {
+      console.error('Error placing order:', error);
+      showError('Failed to place order');
     }
-    showSuccess(`Order placed successfully! Total: ₹${calculateTotal()}`);
-  };
+  }
+
 
   // Loading State
   if (loading) {
